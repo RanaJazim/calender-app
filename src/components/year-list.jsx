@@ -1,14 +1,23 @@
+import { useSelector, useDispatch } from "react-redux";
+
 export default function YearList() {
+  const years = [2017, 2018, 2019, 2020, 2021, 2022];
+  const dispatch = useDispatch();
+  const holliday = useSelector((state) => state.holliday);
+
   return (
     <div className="form-group">
       <label>Select Year:</label>
       <select className="form-control">
-        <option value="2017">2017</option>
-        <option value="2018">2018</option>
-        <option value="2019">2019</option>
-        <option value="2020">2020</option>
-        <option value="2021">2021</option>
-        <option value="2022">2022</option>
+        {years.map((year) => (
+          <option
+            key={year}
+            value={year}
+            selected={year === holliday.currentYear}
+          >
+            {year}
+          </option>
+        ))}
       </select>
     </div>
   );
