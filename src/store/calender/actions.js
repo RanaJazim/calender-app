@@ -1,4 +1,5 @@
 import * as apiActions from "../api";
+import * as calender from "./index";
 
 export const loadHollidays = () => (dispatch, getState) => {
   const API_KEY = "43f7a270aab91991f5eadc812d397f3ea9def7d7";
@@ -9,8 +10,8 @@ export const loadHollidays = () => (dispatch, getState) => {
   dispatch(
     apiActions.apiCallBegan({
       url: getHollidayURL(API_KEY, country.current, holliday.currentYear),
-      onStart: hollidaysRequested.type,
-      onSuccess: hollidaysReceived.type,
+      onStart: calender.hollidaysRequested.type,
+      onSuccess: calender.hollidaysReceived.type,
     })
   );
 };
@@ -27,8 +28,8 @@ export const onYearChanged = () => (dispatch, getState) => {
   dispatch(
     apiActions.apiCallBegan({
       url: getHollidayURL(API_KEY, country.current, holliday.currentYear),
-      onStart: hollidaysRequested.type,
-      onSuccess: hollidaysReceived.type,
+      onStart: calender.hollidaysRequested.type,
+      onSuccess: calender.hollidaysReceived.type,
     })
   );
 };
@@ -40,8 +41,8 @@ export const onCountryChanged = (newCountry) => (dispatch, getState) => {
   dispatch(
     apiActions.apiCallBegan({
       url: getHollidayURL(API_KEY, newCountry, holliday.currentYear),
-      onStart: hollidaysRequested.type,
-      onSuccess: countryChanged.type,
+      onStart: calender.hollidaysRequested.type,
+      onSuccess: calender.countryChanged.type,
     })
   );
 };
