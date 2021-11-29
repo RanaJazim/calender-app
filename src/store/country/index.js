@@ -39,7 +39,7 @@ export const loadCountries = () => (dispatch, getState) => {
 
   dispatch(
     apiActions.apiCallBegan({
-      url: `https://calendarific.com/api/v2/countries?&api_key=${API_KEY}`,
+      url: `/countries?&api_key=${API_KEY}`,
       onStart: countriesRequested.type,
       onSuccess: countriesReceived.type,
     })

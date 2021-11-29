@@ -4,6 +4,8 @@ import * as apiActions from "../api";
 const initialState = {
   list: [],
   isLoading: false,
+  currentYear: new Date().getFullYear(),
+  fetchedYears: [],
 };
 
 const hollidaySlice = createSlice({
@@ -15,12 +17,12 @@ const hollidaySlice = createSlice({
     },
     hollidaysReceived: (hollidays, actions) => {
       const hollidaysPayload = actions.payload.response.holidays;
-      hollidays.list = hollidaysPayload.map((h) => ({
-        title: h.name,
-        start: h.date.iso,
-        end: h.date.iso,
-      }));
+      hollidays.list = [
+        ...hollidays.list,
+        ...getHollidayEvents(hollidaysPayload),
+      ];
       hollidays.isLoading = false;
+      hollidays.fetchedYears.push(hollidays.currentYear);
     },
   },
 });
@@ -31,15 +33,44 @@ export default hollidaySlice.reducer;
 // ACTIONS
 export const loadHollidays = () => (dispatch, getState) => {
   const API_KEY = "43f7a270aab91991f5eadc812d397f3ea9def7d7";
-  const { holliday } = getState();
+  const { holliday, country } = getState();
 
   if (holliday.list.length > 0) return;
 
   dispatch(
     apiActions.apiCallBegan({
-      url: `https://calendarific.com/api/v2/holidays?&api_key=${API_KEY}&country=PK&year=2021`,
+      url: getHollidayURL(API_KEY, country.current, holliday.currentYear),
       onStart: hollidaysRequested.type,
       onSuccess: hollidaysReceived.type,
     })
   );
 };
+
+export const onYearChanged = (year) => (dispatch, getState) => {
+  const API_KEY = "43f7a270aab91991f5eadc812d397f3ea9def7d7";
+  const { holliday, country } = getState();
+
+  const index = holliday.fetchedYears.findIndex((y) => y === year);
+  if (index !== -1) return;
+
+  dispatch(
+    apiActions.apiCallBegan({
+      url: getHollidayURL(API_KEY, country.current, holliday.currentYear),
+      onStart: hollidaysRequested.type,
+      onSuccess: hollidaysReceived.type,
+    })
+  );
+};
+
+// UTILS
+function getHollidayEvents(hollidays) {
+  return hollidays.map((h) => ({
+    title: h.name,
+    start: h.date.iso,
+    end: h.date.iso,
+  }));
+}
+
+function getHollidayURL(key, currCountry, currYear) {
+  return `/holidays?&api_key=${key}&country=${currCountry}&year=${currYear}`;
+}
