@@ -12,7 +12,9 @@ function App() {
 
   useEffect(() => {
     fetchAllCountries().then((res) => {
-      console.log(res.data.response.countries);
+      const countries = res.data.response.countries;
+      setCountries(countries);
+      console.log(countries);
     });
   }, []);
 
@@ -27,8 +29,8 @@ function App() {
       <div className="row my-5">
         <div className="col-md-6">
           <div className="form-group">
-            <label for="sel1">Select Year:</label>
-            <select className="form-control" id="sel1">
+            <label>Select Year:</label>
+            <select className="form-control">
               <option>1</option>
               <option>2</option>
               <option>3</option>
@@ -37,15 +39,18 @@ function App() {
           </div>
         </div>
         <div className="col-md-6">
-          <div className="form-group">
-            <label for="sel1">Select Country:</label>
-            <select className="form-control" id="sel1">
-              <option>1</option>
-              <option>2</option>
-              <option>3</option>
-              <option>4</option>
-            </select>
-          </div>
+          {countries && (
+            <div className="form-group">
+              <label>Select Country:</label>
+              <select className="form-control">
+                {countries.map((country) => (
+                  <option value={country["iso-3166"]} key={country.uuid}>
+                    {country.country_name}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
         </div>
       </div>
 
