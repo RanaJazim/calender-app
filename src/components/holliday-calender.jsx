@@ -5,8 +5,8 @@ import { Calendar, momentLocalizer } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 
 import AppLoading from "./app-loading";
+import { currentDateChanged } from "../store/calender";
 import * as calenderActions from "../store/calender/actions";
-import { onYearChanged, currentDateChanged } from "../store/calender";
 
 const localizer = momentLocalizer(moment);
 

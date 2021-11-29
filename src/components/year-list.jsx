@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from "react-redux";
-import { currentDateChanged, onYearChanged } from "../store/calender";
+import { currentDateChanged } from "../store/calender";
 
 export default function YearList() {
   const years = [2017, 2018, 2019, 2020, 2021, 2022];

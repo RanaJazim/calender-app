@@ -1,0 +1,21 @@
+I used React Big Calendar for calender and Bootstrap for simple styling things.
+I didn't do fancy styling. I've just implemented the core functionallity that you were given to me.
+
+How I implement this ?
+
+1 - First of all I make a network request to countries for fetching all countries because the API you were provided to me had cover 230 
+countries so that's why I make a network request 
+and after successfull response I saved that response to redux store so later I could display all the countries on the select field.
+
+2 - Then I make a second network request to all holidays. By default I used Pakistan as current country and extract the current 
+month from current date i.e. Novemeber in my case.
+
+3 - I've just used years 2017-2022 just to clear I've implemented all these features you were asked me to implement. But we can 
+go further from 2022 by clicking on the next button.
+
+4 - I did some optimizations i.e. I am keeping track of all the hollidays for different years that I've fetched for particular country. It means if I 
+already visit the year for particular country then I don't make another network request instead I am fetching from redux store. 
+
+5 - I can do some more optimizations like if I already visit the country then don't make another network request for fetching holidays
+instead save that into the cache and when we visit the same country then fetch from the cache not from server. But for simplicity 
+I didn't implement this.  
