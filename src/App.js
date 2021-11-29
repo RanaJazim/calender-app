@@ -1,18 +1,20 @@
 import moment from "moment";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
-import { fetchYearlyHollidays } from "./apis/calender";
+import { fetchYearlyHollidays, fetchAllCountries } from "./apis/calender";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 
 const localizer = momentLocalizer(moment);
 const events = [{ title: "Today", start: new Date(), end: new Date() }];
 
 function App() {
-  // useEffect(() => {
-  //   fetchYearlyHollidays().then((res) => {
-  //     console.log(res.data.response.holidays);
-  //   });
-  // }, []);
+  const [countries, setCountries] = useState();
+
+  useEffect(() => {
+    fetchAllCountries().then((res) => {
+      console.log(res.data.response.countries);
+    });
+  }, []);
 
   const handleDateNavigate = (date) => {
     const yearNo = date.getFullYear();
