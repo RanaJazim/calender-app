@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAllCountries } from "../apis/calender";
 import { loadCountries } from "../store/country";
+import { onCountryChanged } from "../store/holliday";
 import AppLoading from "./app-loading";
 
 export default function CountryList() {
@@ -20,10 +21,18 @@ export default function CountryList() {
 
   const dispatch = useDispatch();
   const country = useSelector((state) => state.country);
+  const [currentCountry, setCurrentCountry] = useState(country.current);
 
   useEffect(() => {
     dispatch(loadCountries());
   }, []);
+
+  const handleChangeCountry = (e) => {
+    const country = e.target.value;
+    setCurrentCountry(country);
+    console.log("changed country: ", country);
+    dispatch(onCountryChanged(country));
+  };
 
   return (
     <>
@@ -31,12 +40,12 @@ export default function CountryList() {
       {!country.isLoading && (
         <div className="form-group">
           <label>Select Country:</label>
-          <select className="form-control">
+          <select className="form-control" onChange={handleChangeCountry}>
             {country.list.map((ctry) => (
               <option
                 value={ctry["iso-3166"]}
                 key={ctry.uuid}
-                selected={country.current === ctry["iso-3166"]}
+                selected={currentCountry === ctry["iso-3166"]}
               >
                 {ctry.country_name}
               </option>

@@ -36,7 +36,7 @@ const hollidaySlice = createSlice({
       hollidays.currentMonth = actions.payload.month ?? hollidays.currentMonth;
     },
     countryChanged: (hollidays, actions) => {
-      hollidays.list = actions.payload.response.holidays;
+      hollidays.list = getHollidayEvents(actions.payload.response.holidays);
       hollidays.isLoading = false;
       hollidays.fetchedYears = [];
       hollidays.fetchedYears.push(hollidays.currentYear);
@@ -86,18 +86,13 @@ export const onYearChanged = () => (dispatch, getState) => {
   );
 };
 
-export const onCountryChanged = () => (dispatch, getState) => {
+export const onCountryChanged = (newCountry) => (dispatch, getState) => {
   const API_KEY = "43f7a270aab91991f5eadc812d397f3ea9def7d7";
   const { holliday, country } = getState();
 
-  const index = holliday.fetchedYears.findIndex(
-    (y) => y === holliday.currentYear
-  );
-  if (index !== -1) return;
-
   dispatch(
     apiActions.apiCallBegan({
-      url: getHollidayURL(API_KEY, country.current, holliday.currentYear),
+      url: getHollidayURL(API_KEY, newCountry, holliday.currentYear),
       onStart: hollidaysRequested.type,
       onSuccess: countryChanged.type,
     })
