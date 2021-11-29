@@ -1,8 +1,9 @@
 import moment from "moment";
 import { useEffect, useState } from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
-import { fetchYearlyHollidays, fetchAllCountries } from "./apis/calender";
+import { fetchAllCountries } from "./apis/calender";
 import "react-big-calendar/lib/css/react-big-calendar.css";
+import CountryList from "./components/country-list";
 
 const localizer = momentLocalizer(moment);
 const events = [{ title: "Today", start: new Date(), end: new Date() }];
@@ -39,18 +40,7 @@ function App() {
           </div>
         </div>
         <div className="col-md-6">
-          {countries && (
-            <div className="form-group">
-              <label>Select Country:</label>
-              <select className="form-control">
-                {countries.map((country) => (
-                  <option value={country["iso-3166"]} key={country.uuid}>
-                    {country.country_name}
-                  </option>
-                ))}
-              </select>
-            </div>
-          )}
+          <CountryList />
         </div>
       </div>
 
