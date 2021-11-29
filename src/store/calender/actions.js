@@ -1,15 +1,15 @@
-import * as apiActions from "../api";
 import * as calender from "./index";
+import * as apiActions from "../api";
+import { API_KEY } from "../../utils/constants";
 
 export const loadHollidays = () => (dispatch, getState) => {
-  const API_KEY = "43f7a270aab91991f5eadc812d397f3ea9def7d7";
   const { holliday, country } = getState();
 
   if (holliday.list.length > 0) return;
 
   dispatch(
     apiActions.apiCallBegan({
-      url: getHollidayURL(API_KEY, country.current, holliday.currentYear),
+      url: getHollidayURL(country.current, holliday.currentYear),
       onStart: calender.hollidaysRequested.type,
       onSuccess: calender.hollidaysReceived.type,
     })
@@ -17,7 +17,6 @@ export const loadHollidays = () => (dispatch, getState) => {
 };
 
 export const onYearChanged = () => (dispatch, getState) => {
-  const API_KEY = "43f7a270aab91991f5eadc812d397f3ea9def7d7";
   const { holliday, country } = getState();
 
   const index = holliday.fetchedYears.findIndex(
@@ -27,7 +26,7 @@ export const onYearChanged = () => (dispatch, getState) => {
 
   dispatch(
     apiActions.apiCallBegan({
-      url: getHollidayURL(API_KEY, country.current, holliday.currentYear),
+      url: getHollidayURL(country.current, holliday.currentYear),
       onStart: calender.hollidaysRequested.type,
       onSuccess: calender.hollidaysReceived.type,
     })
@@ -35,12 +34,11 @@ export const onYearChanged = () => (dispatch, getState) => {
 };
 
 export const onCountryChanged = (newCountry) => (dispatch, getState) => {
-  const API_KEY = "43f7a270aab91991f5eadc812d397f3ea9def7d7";
   const { holliday } = getState();
 
   dispatch(
     apiActions.apiCallBegan({
-      url: getHollidayURL(API_KEY, newCountry, holliday.currentYear),
+      url: getHollidayURL(newCountry, holliday.currentYear),
       onStart: calender.hollidaysRequested.type,
       onSuccess: calender.countryChanged.type,
     })
@@ -48,6 +46,6 @@ export const onCountryChanged = (newCountry) => (dispatch, getState) => {
 };
 
 // UTILS
-function getHollidayURL(key, currCountry, currYear) {
-  return `/holidays?&api_key=${key}&country=${currCountry}&year=${currYear}`;
+function getHollidayURL(currCountry, currYear) {
+  return `/holidays?&api_key=${API_KEY}&country=${currCountry}&year=${currYear}`;
 }
