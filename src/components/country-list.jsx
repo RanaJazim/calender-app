@@ -32,9 +32,13 @@ export default function CountryList() {
         <div className="form-group">
           <label>Select Country:</label>
           <select className="form-control">
-            {country.list.map((country) => (
-              <option value={country["iso-3166"]} key={country.uuid}>
-                {country.country_name}
+            {country.list.map((ctry) => (
+              <option
+                value={ctry["iso-3166"]}
+                key={ctry.uuid}
+                selected={country.current === ctry["iso-3166"]}
+              >
+                {ctry.country_name}
               </option>
             ))}
           </select>
