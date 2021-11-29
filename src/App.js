@@ -1,23 +1,16 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect } from "react";
+import { fetchYearlyHollidays } from "./apis/calender";
 
 function App() {
+  useEffect(() => {
+    fetchYearlyHollidays().then((res) => {
+      console.log(res.data.response.holidays);
+    });
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <p>Calender App</p>
     </div>
   );
 }
