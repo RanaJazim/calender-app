@@ -8,7 +8,8 @@ import {
   loadHollidays,
   onYearChanged,
   currentDateChanged,
-} from "../store/holliday";
+} from "../store/calender";
+// import * calenderActions from 
 
 const localizer = momentLocalizer(moment);
 
