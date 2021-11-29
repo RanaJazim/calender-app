@@ -1,24 +1,10 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchAllCountries } from "../apis/calender";
+import AppLoading from "./app-loading";
 import { loadCountries } from "../store/country";
 import { onCountryChanged } from "../store/holliday";
-import AppLoading from "./app-loading";
 
 export default function CountryList() {
-  //   const [countries, setCountries] = useState();
-  //   const [isLoading, setIsLoading] = useState(false);
-
-  //   useEffect(() => {
-  //     setIsLoading(true);
-  //     fetchAllCountries().then((res) => {
-  //       const countries = res.data.response.countries;
-  //       setCountries(countries);
-  //       setIsLoading(false);
-  //       console.log(countries);
-  //     });
-  //   }, []);
-
   const dispatch = useDispatch();
   const country = useSelector((state) => state.country);
   const [currentCountry, setCurrentCountry] = useState(country.current);
@@ -30,7 +16,6 @@ export default function CountryList() {
   const handleChangeCountry = (e) => {
     const country = e.target.value;
     setCurrentCountry(country);
-    console.log("changed country: ", country);
     dispatch(onCountryChanged(country));
   };
 
