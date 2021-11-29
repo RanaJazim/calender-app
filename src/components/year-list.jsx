@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from "react-redux";
-import { currentYearChanged, onYearChanged } from "../store/holliday";
+import { currentDateChanged, onYearChanged } from "../store/holliday";
 
 export default function YearList() {
   const years = [2017, 2018, 2019, 2020, 2021, 2022];
@@ -8,7 +8,7 @@ export default function YearList() {
 
   const handleYearChanged = (e) => {
     const year = +e.target.value;
-    dispatch(currentYearChanged(year));
+    dispatch(currentDateChanged({ year }));
   };
 
   return (

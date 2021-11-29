@@ -7,7 +7,7 @@ import { fetchYearlyHollidays } from "../apis/calender";
 import {
   loadHollidays,
   onYearChanged,
-  currentYearChanged,
+  currentDateChanged,
 } from "../store/holliday";
 import AppLoading from "./app-loading";
 
@@ -33,6 +33,9 @@ export default function HollidayCalender() {
 
   const dispatch = useDispatch();
   const holliday = useSelector((state) => state.holliday);
+  const currentDate = new Date(
+    `${holliday.currentYear}/${holliday.currentMonth}/01`
+  );
 
   useEffect(() => {
     dispatch(loadHollidays());
@@ -43,10 +46,9 @@ export default function HollidayCalender() {
   }, [holliday.currentYear]);
 
   const handleDateNavigate = (date) => {
-    const yearNo = date.getFullYear();
-    if (yearNo !== holliday.currentYear) {
-      dispatch(currentYearChanged(yearNo));
-    }
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear();
+    dispatch(currentDateChanged({ year, month }));
   };
 
   if (holliday.isLoading) {
@@ -63,6 +65,7 @@ export default function HollidayCalender() {
       views={["month"]}
       onNavigate={handleDateNavigate}
       drilldownView="agenda"
+      date={currentDate}
     />
   );
 }
