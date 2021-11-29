@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import AppLoading from "./app-loading";
-import { loadCountries } from "../store/country";
+import * as countryActions from "../store/country/actions";
 import * as calenderActions from "../store/calender/actions";
 
 export default function CountryList() {
@@ -10,7 +10,7 @@ export default function CountryList() {
   const [currentCountry, setCurrentCountry] = useState(country.current);
 
   useEffect(() => {
-    dispatch(loadCountries());
+    dispatch(countryActions.loadCountries());
   }, []);
 
   const handleChangeCountry = (e) => {
