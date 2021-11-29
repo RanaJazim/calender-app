@@ -5,7 +5,7 @@ const initialState = {
   list: [],
   isLoading: false,
   currentYear: new Date().getFullYear(),
-  fetchedYears: [],
+  fetchedYears: [new Date().getFullYear()],
 };
 
 const hollidaySlice = createSlice({
@@ -24,10 +24,14 @@ const hollidaySlice = createSlice({
       hollidays.isLoading = false;
       hollidays.fetchedYears.push(hollidays.currentYear);
     },
+    currentYearChanged: (hollidays, actions) => {
+      hollidays.currentYear = actions.payload;
+    },
   },
 });
 
-const { hollidaysRequested, hollidaysReceived } = hollidaySlice.actions;
+export const { hollidaysRequested, hollidaysReceived, currentYearChanged } =
+  hollidaySlice.actions;
 export default hollidaySlice.reducer;
 
 // ACTIONS
@@ -46,11 +50,13 @@ export const loadHollidays = () => (dispatch, getState) => {
   );
 };
 
-export const onYearChanged = (year) => (dispatch, getState) => {
+export const onYearChanged = () => (dispatch, getState) => {
   const API_KEY = "43f7a270aab91991f5eadc812d397f3ea9def7d7";
   const { holliday, country } = getState();
 
-  const index = holliday.fetchedYears.findIndex((y) => y === year);
+  const index = holliday.fetchedYears.findIndex(
+    (y) => y === holliday.currentYear
+  );
   if (index !== -1) return;
 
   dispatch(

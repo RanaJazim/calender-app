@@ -5,7 +5,7 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { fetchYearlyHollidays } from "../apis/calender";
-import { loadHollidays } from "../store/holliday";
+import { loadHollidays, onYearChanged } from "../store/holliday";
 import AppLoading from "./app-loading";
 
 const localizer = momentLocalizer(moment);
@@ -34,6 +34,10 @@ export default function HollidayCalender() {
   useEffect(() => {
     dispatch(loadHollidays());
   }, []);
+
+  useEffect(() => {
+    dispatch(onYearChanged());
+  }, [holliday.currentYear]);
 
   const handleDateNavigate = (date) => {
     const yearNo = date.getFullYear();
