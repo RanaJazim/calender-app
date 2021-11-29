@@ -53,6 +53,8 @@ export default calenderSlice.reducer;
 
 // UTILS
 function getHollidayEvents(hollidays) {
+  if (!hollidays) return [];
+
   return hollidays.map((h) => ({
     title: h.name,
     start: h.date.iso,
