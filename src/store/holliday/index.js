@@ -1,11 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 import * as apiActions from "../api";
 
+const currentYear = new Date().getFullYear();
 const initialState = {
   list: [],
   isLoading: false,
-  currentYear: new Date().getFullYear(),
-  fetchedYears: [new Date().getFullYear()],
+  currentYear: currentYear,
+  fetchedYears: [currentYear],
 };
 
 const hollidaySlice = createSlice({
@@ -25,7 +26,10 @@ const hollidaySlice = createSlice({
       hollidays.fetchedYears.push(hollidays.currentYear);
     },
     currentYearChanged: (hollidays, actions) => {
-      hollidays.currentYear = actions.payload;
+      const year = actions.payload;
+      if (hollidays.currentYear !== year) {
+        hollidays.currentYear = year;
+      }
     },
   },
 });

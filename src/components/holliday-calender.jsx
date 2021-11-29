@@ -2,10 +2,13 @@ import moment from "moment";
 import { useEffect, useState } from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { fetchYearlyHollidays } from "../apis/calender";
-import { loadHollidays, onYearChanged } from "../store/holliday";
+import {
+  loadHollidays,
+  onYearChanged,
+  currentYearChanged,
+} from "../store/holliday";
 import AppLoading from "./app-loading";
 
 const localizer = momentLocalizer(moment);
@@ -41,8 +44,9 @@ export default function HollidayCalender() {
 
   const handleDateNavigate = (date) => {
     const yearNo = date.getFullYear();
-    const monthNo = date.getMonth() + 1;
-    console.log("month navigate: ", monthNo, yearNo);
+    if (yearNo !== holliday.currentYear) {
+      dispatch(currentYearChanged(yearNo));
+    }
   };
 
   if (holliday.isLoading) {
